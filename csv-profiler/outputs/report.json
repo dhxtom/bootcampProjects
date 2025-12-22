@@ -1,0 +1,29 @@
+{
+  "summary": {
+    "rows": 3,
+    "columns": 3
+  },
+  "columns": {
+    "name": {
+      "type": "text",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "unique": 3
+    },
+    "age": {
+      "type": "number",
+      "missing": 1,
+      "missing_pct": 0.3333333333333333,
+      "unique": 2,
+      "min": 23.0,
+      "max": 31.0,
+      "mean": 27.0
+    },
+    "city": {
+      "type": "text",
+      "missing": 0,
+      "missing_pct": 0.0,
+      "unique": 3
+    }
+  }
+}
