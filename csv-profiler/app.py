@@ -6,10 +6,8 @@ import streamlit as st
 
 from csv_profiler.profile import profile_rows
 
-# لو عندك render.py فيه دالة اسمها render_markdown ممتاز
-# إذا ما عندك، بنسوي ماركداون بسيط داخل app.py
 try:
-    from csv_profiler.render import render_markdown  # type: ignore
+    from csv_profiler.render import render_markdown
 except Exception:
     render_markdown = None
 
@@ -43,40 +41,36 @@ uploaded = st.sidebar.file_uploader("Upload CSV", type=["csv"])
 show_preview = st.sidebar.checkbox("Show preview", value=True)
 
 if uploaded is None:
-    st.info("ارفع ملف CSV عشان نبدأ (جرّب data/sample.csv).")
+    st.info("Upload a CSV file to begin.")
     st.stop()
 
-# قراءة الملف (bytes -> text)
 text = uploaded.getvalue().decode("utf-8-sig")
 rows = list(csv.DictReader(StringIO(text)))
 
-st.write("**Filename:**", uploaded.name)
-st.write("**Rows loaded:**", len(rows))
+st.write("Filename:", uploaded.name)
+st.write("Rows loaded:", len(rows))
 
 if show_preview:
     st.write(rows[:5])
 
-# زر إنشاء التقرير (عشان ما يصير يحسب مع كل rerun)
 if st.button("Generate report"):
     st.session_state["report"] = profile_rows(rows)
 
 report = st.session_state.get("report")
 if report is None:
-    st.warning("اضغط Generate report عشان يطلع التحليل.")
+    st.warning("Click Generate report to run profiling.")
     st.stop()
 
-# عرض ملخص
-colA, colB = st.columns(2)
-colA.metric("Rows", report.get("rows", 0))
-colB.metric("Columns", report.get("n_columns", 0))
+col1, col2 = st.columns(2)
+col1.metric("Rows", report.get("rows", 0))
+col2.metric("Columns", report.get("n_columns", 0))
 
 st.subheader("Column profiles")
 st.write(report.get("columns", []))
 
-with st.expander("Raw JSON (debug)", expanded=False):
+with st.expander("Raw JSON", expanded=False):
     st.json(report)
 
-# تجهيز ملفات التنزيل
 json_bytes = (json.dumps(report, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
 
 if render_markdown is not None:
