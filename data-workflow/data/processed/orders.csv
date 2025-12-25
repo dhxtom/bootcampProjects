@@ -1,0 +1,6 @@
+order_id,user_id,amount,quantity,created_at,status
+A0001,0001,12.5,1,2025-12-01T10:05:00Z,Paid
+A0002,0002,8.0,2,2025-12-01T11:10:00Z,paid
+A0003,0003,,1,2025-12-02T09:00:00Z,Refund
+A0004,0001,25.0,,2025-12-03T14:30:00Z,PAID
+A0005,0004,100.0,1,not_a_date,paid
